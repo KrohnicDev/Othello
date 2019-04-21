@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2715CECB226CC05C008ADDE7 /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715CECA226CC05C008ADDE7 /* Directions.swift */; };
+		2715CECD226CC092008ADDE7 /* OthelloState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715CECC226CC092008ADDE7 /* OthelloState.swift */; };
+		2715CED0226CC160008ADDE7 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2715CECF226CC160008ADDE7 /* MenuViewController.swift */; };
 		277DF09F226B9DBC00BB6100 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF09E226B9DBC00BB6100 /* AppDelegate.swift */; };
-		277DF0A1226B9DBC00BB6100 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0A0226B9DBC00BB6100 /* ViewController.swift */; };
+		277DF0A1226B9DBC00BB6100 /* OthelloViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0A0226B9DBC00BB6100 /* OthelloViewController.swift */; };
 		277DF0A4226B9DBC00BB6100 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 277DF0A2226B9DBC00BB6100 /* Main.storyboard */; };
 		277DF0A7226B9DBC00BB6100 /* Othello.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0A5226B9DBC00BB6100 /* Othello.xcdatamodeld */; };
 		277DF0A9226B9DBD00BB6100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 277DF0A8226B9DBD00BB6100 /* Assets.xcassets */; };
 		277DF0AC226B9DBD00BB6100 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 277DF0AA226B9DBD00BB6100 /* LaunchScreen.storyboard */; };
+		277DF0BA226B9FD100BB6100 /* OthelloGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0B9226B9FD100BB6100 /* OthelloGrid.swift */; };
+		277DF0BC226BA01F00BB6100 /* OthelloTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0BB226BA01F00BB6100 /* OthelloTile.swift */; };
+		277DF0BE226BBAF300BB6100 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277DF0BD226BBAF300BB6100 /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2715CECA226CC05C008ADDE7 /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
+		2715CECC226CC092008ADDE7 /* OthelloState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthelloState.swift; sourceTree = "<group>"; };
+		2715CECF226CC160008ADDE7 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		277DF09B226B9DBC00BB6100 /* Othello.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Othello.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		277DF09E226B9DBC00BB6100 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		277DF0A0226B9DBC00BB6100 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		277DF0A0226B9DBC00BB6100 /* OthelloViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthelloViewController.swift; sourceTree = "<group>"; };
 		277DF0A3226B9DBC00BB6100 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		277DF0A6226B9DBC00BB6100 /* Othello.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Othello.xcdatamodel; sourceTree = "<group>"; };
 		277DF0A8226B9DBD00BB6100 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		277DF0AB226B9DBD00BB6100 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		277DF0AD226B9DBD00BB6100 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		277DF0B9226B9FD100BB6100 /* OthelloGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthelloGrid.swift; sourceTree = "<group>"; };
+		277DF0BB226BA01F00BB6100 /* OthelloTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthelloTile.swift; sourceTree = "<group>"; };
+		277DF0BD226BBAF300BB6100 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2715CECE226CC0C0008ADDE7 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				277DF0B9226B9FD100BB6100 /* OthelloGrid.swift */,
+				277DF0BB226BA01F00BB6100 /* OthelloTile.swift */,
+				2715CECA226CC05C008ADDE7 /* Directions.swift */,
+				2715CECC226CC092008ADDE7 /* OthelloState.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		277DF092226B9DBB00BB6100 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +79,50 @@
 		277DF09D226B9DBC00BB6100 /* Othello */ = {
 			isa = PBXGroup;
 			children = (
-				277DF09E226B9DBC00BB6100 /* AppDelegate.swift */,
-				277DF0A0226B9DBC00BB6100 /* ViewController.swift */,
-				277DF0A2226B9DBC00BB6100 /* Main.storyboard */,
-				277DF0A8226B9DBD00BB6100 /* Assets.xcassets */,
-				277DF0AA226B9DBD00BB6100 /* LaunchScreen.storyboard */,
 				277DF0AD226B9DBD00BB6100 /* Info.plist */,
-				277DF0A5226B9DBC00BB6100 /* Othello.xcdatamodeld */,
+				277DF0AA226B9DBD00BB6100 /* LaunchScreen.storyboard */,
+				277DF0B8226B9E4200BB6100 /* Model */,
+				277DF0B6226B9E3200BB6100 /* View */,
+				277DF0B3226B9E0D00BB6100 /* Controller */,
+				277DF0B7226B9E3B00BB6100 /* Resources */,
 			);
 			path = Othello;
+			sourceTree = "<group>";
+		};
+		277DF0B3226B9E0D00BB6100 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				277DF0A0226B9DBC00BB6100 /* OthelloViewController.swift */,
+				2715CECF226CC160008ADDE7 /* MenuViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		277DF0B6226B9E3200BB6100 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				277DF0A2226B9DBC00BB6100 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		277DF0B7226B9E3B00BB6100 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				277DF0A8226B9DBD00BB6100 /* Assets.xcassets */,
+				277DF09E226B9DBC00BB6100 /* AppDelegate.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		277DF0B8226B9E4200BB6100 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2715CECE226CC0C0008ADDE7 /* Components */,
+				277DF0BD226BBAF300BB6100 /* Game.swift */,
+				277DF0A5226B9DBC00BB6100 /* Othello.xcdatamodeld */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +196,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				277DF0A1226B9DBC00BB6100 /* ViewController.swift in Sources */,
+				277DF0BC226BA01F00BB6100 /* OthelloTile.swift in Sources */,
+				2715CECB226CC05C008ADDE7 /* Directions.swift in Sources */,
+				277DF0BE226BBAF300BB6100 /* Game.swift in Sources */,
+				277DF0A1226B9DBC00BB6100 /* OthelloViewController.swift in Sources */,
+				2715CED0226CC160008ADDE7 /* MenuViewController.swift in Sources */,
+				277DF0BA226B9FD100BB6100 /* OthelloGrid.swift in Sources */,
+				2715CECD226CC092008ADDE7 /* OthelloState.swift in Sources */,
 				277DF0A7226B9DBC00BB6100 /* Othello.xcdatamodeld in Sources */,
 				277DF09F226B9DBC00BB6100 /* AppDelegate.swift in Sources */,
 			);
