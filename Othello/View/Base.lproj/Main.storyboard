@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WZv-XV-vOJ">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad10_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -10,156 +10,177 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Othello-->
+        <!--Päävalikko-->
         <scene sceneID="g1Q-ce-4kd">
             <objects>
-                <viewController id="zA7-kE-nRz" customClass="MenuVC" customModule="Othello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Päävalikko" id="zA7-kE-nRz" customClass="MenuVC" customModule="Othello" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cOC-u8-LdO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ruudukko: 99 x 99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wN-2E-0Sf">
+                                <rect key="frame" x="0.0" y="205" width="834" height="34.5"/>
+                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="2" maxValue="8" translatesAutoresizingMaskIntoConstraints="NO" id="nrX-a4-6NQ">
+                                <rect key="frame" x="206.5" y="318.5" width="421" height="31"/>
+                                <connections>
+                                    <action selector="sliderWasMoved:" destination="zA7-kE-nRz" eventType="valueChanged" id="UfM-yy-M7V"/>
+                                </connections>
+                            </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghW-z7-y6c">
-                                <rect key="frame" x="30" y="302" width="315" height="63"/>
-                                <color key="backgroundColor" red="1" green="0.57810515169999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="273" y="960.5" width="288" height="81"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="40"/>
-                                <state key="normal" title="Aloita Peli!">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="contentEdgeInsets" minX="15" minY="15" maxX="15" maxY="15"/>
+                                <state key="normal" title="Aloita peli!">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <segue destination="F0t-fi-m3V" kind="show" identifier="startGame" id="Bcx-YV-Cer"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ruudukko: 20 x 30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wN-2E-0Sf">
-                                <rect key="frame" x="0.0" y="113" width="375" height="40.5"/>
-                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="32"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="4" minValue="2" maxValue="10" translatesAutoresizingMaskIntoConstraints="NO" id="nrX-a4-6NQ">
-                                <rect key="frame" x="92" y="185" width="191.5" height="31"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RCU-KG-lQ3">
+                                <rect key="frame" x="257" y="448" width="320" height="216"/>
                                 <connections>
-                                    <action selector="sliderWasMoved:" destination="zA7-kE-nRz" eventType="valueChanged" id="UfM-yy-M7V"/>
+                                    <outlet property="dataSource" destination="zA7-kE-nRz" id="uZi-bE-12x"/>
+                                    <outlet property="delegate" destination="zA7-kE-nRz" id="toM-Tx-htx"/>
                                 </connections>
-                            </slider>
+                            </pickerView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Hfn-qH-6O2">
+                                <rect key="frame" x="348.5" y="818.5" width="137" height="31"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tekoäly" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqS-IW-KxT">
+                                        <rect key="frame" x="0.0" y="0.0" width="58" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C9T-R4-8Tb">
+                                        <rect key="frame" x="88" y="0.0" width="51" height="31"/>
+                                    </switch>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="RCU-KG-lQ3" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" id="1j8-tB-6LE"/>
+                            <constraint firstItem="RCU-KG-lQ3" firstAttribute="centerX" secondItem="cOC-u8-LdO" secondAttribute="centerX" id="3MP-da-QMe"/>
                             <constraint firstItem="nrX-a4-6NQ" firstAttribute="centerX" secondItem="cOC-u8-LdO" secondAttribute="centerX" id="8Od-vs-nga"/>
                             <constraint firstItem="nrX-a4-6NQ" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" multiplier="0.6" id="C16-UH-qxe"/>
-                            <constraint firstItem="ghW-z7-y6c" firstAttribute="leading" secondItem="kbf-4r-Xf9" secondAttribute="leading" constant="30" id="LEh-Bv-i74"/>
+                            <constraint firstItem="Hfn-qH-6O2" firstAttribute="centerX" secondItem="cOC-u8-LdO" secondAttribute="centerX" id="Hf2-pi-MRh"/>
                             <constraint firstItem="5wN-2E-0Sf" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" multiplier="0.4" id="QEc-JQ-uEg"/>
+                            <constraint firstItem="ghW-z7-y6c" firstAttribute="centerX" secondItem="cOC-u8-LdO" secondAttribute="centerX" id="R2s-xb-Psb"/>
                             <constraint firstItem="nrX-a4-6NQ" firstAttribute="width" secondItem="5wN-2E-0Sf" secondAttribute="width" multiplier="0.5" id="Y8j-z3-H0h"/>
                             <constraint firstItem="5wN-2E-0Sf" firstAttribute="leading" secondItem="kbf-4r-Xf9" secondAttribute="leading" id="ZRs-Ny-8Ik"/>
-                            <constraint firstItem="ghW-z7-y6c" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" id="lnL-fK-99w"/>
+                            <constraint firstItem="ghW-z7-y6c" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" multiplier="1.8" id="lnL-fK-99w"/>
+                            <constraint firstItem="Hfn-qH-6O2" firstAttribute="centerY" secondItem="cOC-u8-LdO" secondAttribute="centerY" multiplier="1.5" id="ma8-QC-dv5"/>
                             <constraint firstItem="kbf-4r-Xf9" firstAttribute="trailing" secondItem="5wN-2E-0Sf" secondAttribute="trailing" id="tRT-Sp-whA"/>
-                            <constraint firstItem="kbf-4r-Xf9" firstAttribute="trailing" secondItem="ghW-z7-y6c" secondAttribute="trailing" constant="30" id="vTz-2e-tEb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kbf-4r-Xf9"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Othello" id="NfS-2m-vuB">
+                    <navigationItem key="navigationItem" title="Päävalikko" id="NfS-2m-vuB">
                         <barButtonItem key="backBarButtonItem" title="Takaisin" id="UCe-ky-hNj"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="aiSwitch" destination="C9T-R4-8Tb" id="QlS-Yn-5BW"/>
+                        <outlet property="colorPickerView" destination="RCU-KG-lQ3" id="kni-v9-Nbf"/>
                         <outlet property="ruudukkoLabel" destination="5wN-2E-0Sf" id="MeV-h0-3j7"/>
                         <outlet property="slider" destination="nrX-a4-6NQ" id="655-gf-fu9"/>
+                        <outlet property="startGameButton" destination="ghW-z7-y6c" id="BfY-V5-k6n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Oek-jq-RPE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1783" y="92"/>
         </scene>
-        <!--Othello-->
+        <!--Peli-->
         <scene sceneID="pfp-OI-MaI">
             <objects>
-                <viewController title="Othello" id="F0t-fi-m3V" customClass="OthelloViewController" customModule="Othello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Peli" id="F0t-fi-m3V" customClass="OthelloViewController" customModule="Othello" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f38-LO-ZK0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Zyf-Rx-83f">
-                                <rect key="frame" x="10" y="74" width="355" height="583"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfs-SJ-S5S" userLabel="Top Bar">
+                                <rect key="frame" x="10" y="80" width="814" height="52"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bfs-SJ-S5S" userLabel="Top Bar">
-                                        <rect key="frame" x="0.0" y="0.0" width="355" height="71.5"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uKP-Ib-1Nd" userLabel="Score Labels">
+                                        <rect key="frame" x="5" y="2" width="96" height="48"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="uKP-Ib-1Nd" userLabel="Score Labels">
-                                                <rect key="frame" x="5" y="2" width="96" height="67.5"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 1: 99 " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJs-KT-7Xc" userLabel="Player 1 Label">
-                                                        <rect key="frame" x="0.0" y="0.0" width="96" height="34"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 2: 99 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Qx-GM-vpj" userLabel="Player 2 Label">
-                                                        <rect key="frame" x="0.0" y="34" width="96" height="33.5"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Uqw-HE-1R1">
-                                                <rect key="frame" x="167.5" y="26" width="20" height="20"/>
-                                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
-                                            </activityIndicatorView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPZ-RG-EzP">
-                                                <rect key="frame" x="226" y="5" width="124" height="61.5"/>
-                                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="25"/>
-                                                <state key="normal" title="Uusi peli">
-                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="newGameButtonPressed:" destination="F0t-fi-m3V" eventType="touchUpInside" id="EDf-og-bXm"/>
-                                                </connections>
-                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 1: 99 " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJs-KT-7Xc" userLabel="Player 1 Label">
+                                                <rect key="frame" x="0.0" y="0.0" width="96" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 2: 99 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Qx-GM-vpj" userLabel="Player 2 Label">
+                                                <rect key="frame" x="0.0" y="24" width="96" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="Uqw-HE-1R1" firstAttribute="centerY" secondItem="Bfs-SJ-S5S" secondAttribute="centerY" id="3cb-1f-vKA"/>
-                                            <constraint firstItem="jPZ-RG-EzP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Uqw-HE-1R1" secondAttribute="trailing" constant="10" id="9qJ-eH-V1z"/>
-                                            <constraint firstItem="uKP-Ib-1Nd" firstAttribute="centerY" secondItem="jPZ-RG-EzP" secondAttribute="centerY" id="BPh-RJ-fcS"/>
-                                            <constraint firstItem="Uqw-HE-1R1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uKP-Ib-1Nd" secondAttribute="trailing" constant="10" id="P0W-KO-Py1"/>
-                                            <constraint firstItem="jPZ-RG-EzP" firstAttribute="top" secondItem="Bfs-SJ-S5S" secondAttribute="top" constant="5" id="fTY-tg-A3c"/>
-                                            <constraint firstItem="uKP-Ib-1Nd" firstAttribute="centerY" secondItem="Bfs-SJ-S5S" secondAttribute="centerY" id="iYq-IL-Lck"/>
-                                            <constraint firstItem="uKP-Ib-1Nd" firstAttribute="top" secondItem="Bfs-SJ-S5S" secondAttribute="top" constant="2" id="ndv-dh-aZe"/>
-                                            <constraint firstAttribute="trailing" secondItem="jPZ-RG-EzP" secondAttribute="trailing" constant="5" id="p1R-uK-knQ"/>
-                                            <constraint firstItem="Uqw-HE-1R1" firstAttribute="centerX" secondItem="Bfs-SJ-S5S" secondAttribute="centerX" id="pXs-Ef-rwb"/>
-                                            <constraint firstItem="uKP-Ib-1Nd" firstAttribute="leading" secondItem="Bfs-SJ-S5S" secondAttribute="leading" constant="5" id="yPc-T3-5CP"/>
-                                        </constraints>
-                                    </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4V6-Bg-xd7" userLabel="GameRows">
-                                        <rect key="frame" x="10" y="81.5" width="335" height="501.5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPZ-RG-EzP">
+                                        <rect key="frame" x="675" y="5" width="134" height="42"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="25"/>
+                                        <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <state key="normal" title="Uusi peli">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="newGameButtonPressed:" destination="F0t-fi-m3V" eventType="touchUpInside" id="EDf-og-bXm"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="4V6-Bg-xd7" firstAttribute="leading" secondItem="Zyf-Rx-83f" secondAttribute="leading" constant="10" id="AVq-Sy-Gh7"/>
-                                    <constraint firstItem="4V6-Bg-xd7" firstAttribute="height" secondItem="Bfs-SJ-S5S" secondAttribute="height" multiplier="7" id="MEM-pO-KBI"/>
-                                    <constraint firstItem="Bfs-SJ-S5S" firstAttribute="leading" secondItem="Zyf-Rx-83f" secondAttribute="leading" id="edi-ae-DUA"/>
+                                    <constraint firstItem="uKP-Ib-1Nd" firstAttribute="centerY" secondItem="jPZ-RG-EzP" secondAttribute="centerY" id="BPh-RJ-fcS"/>
+                                    <constraint firstItem="jPZ-RG-EzP" firstAttribute="top" secondItem="Bfs-SJ-S5S" secondAttribute="top" constant="5" id="fTY-tg-A3c"/>
+                                    <constraint firstItem="uKP-Ib-1Nd" firstAttribute="centerY" secondItem="Bfs-SJ-S5S" secondAttribute="centerY" id="iYq-IL-Lck"/>
+                                    <constraint firstItem="jPZ-RG-EzP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uKP-Ib-1Nd" secondAttribute="trailing" constant="10" id="jIO-gu-DQy"/>
+                                    <constraint firstItem="uKP-Ib-1Nd" firstAttribute="top" secondItem="Bfs-SJ-S5S" secondAttribute="top" constant="2" id="ndv-dh-aZe"/>
+                                    <constraint firstAttribute="trailing" secondItem="jPZ-RG-EzP" secondAttribute="trailing" constant="5" id="p1R-uK-knQ"/>
+                                    <constraint firstItem="uKP-Ib-1Nd" firstAttribute="leading" secondItem="Bfs-SJ-S5S" secondAttribute="leading" constant="5" id="yPc-T3-5CP"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="4V6-Bg-xd7" userLabel="GameRows">
+                                <rect key="frame" x="10" y="142" width="814" height="814"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4V6-Bg-xd7" secondAttribute="height" multiplier="1:1" id="ZbE-F6-RdN"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Zyf-Rx-83f" firstAttribute="leading" secondItem="p3m-R2-rJZ" secondAttribute="leading" constant="10" id="1xT-GW-0Km"/>
-                            <constraint firstItem="Zyf-Rx-83f" firstAttribute="centerX" secondItem="f38-LO-ZK0" secondAttribute="centerX" id="BR2-YB-wuX"/>
-                            <constraint firstItem="Zyf-Rx-83f" firstAttribute="top" secondItem="p3m-R2-rJZ" secondAttribute="top" constant="10" id="G22-B0-BMA"/>
-                            <constraint firstItem="p3m-R2-rJZ" firstAttribute="bottom" secondItem="Zyf-Rx-83f" secondAttribute="bottom" constant="10" id="Xbl-gs-62R"/>
+                            <constraint firstItem="4V6-Bg-xd7" firstAttribute="top" secondItem="Bfs-SJ-S5S" secondAttribute="bottom" constant="10" id="CeR-zA-beN"/>
+                            <constraint firstItem="p3m-R2-rJZ" firstAttribute="trailing" secondItem="Bfs-SJ-S5S" secondAttribute="trailing" constant="10" id="En5-jp-QAv"/>
+                            <constraint firstItem="4V6-Bg-xd7" firstAttribute="leading" secondItem="p3m-R2-rJZ" secondAttribute="leading" constant="10" id="OYE-Dd-MTS"/>
+                            <constraint firstItem="p3m-R2-rJZ" firstAttribute="trailing" secondItem="4V6-Bg-xd7" secondAttribute="trailing" constant="10" id="YNF-fj-44e"/>
+                            <constraint firstItem="4V6-Bg-xd7" firstAttribute="centerX" secondItem="f38-LO-ZK0" secondAttribute="centerX" id="d8D-nh-i6L"/>
+                            <constraint firstItem="Bfs-SJ-S5S" firstAttribute="top" secondItem="p3m-R2-rJZ" secondAttribute="top" constant="10" id="kwk-hF-GWK"/>
+                            <constraint firstItem="Bfs-SJ-S5S" firstAttribute="leading" secondItem="p3m-R2-rJZ" secondAttribute="leading" constant="10" id="ydr-DC-Bl7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="p3m-R2-rJZ"/>
                     </view>
                     <connections>
                         <outlet property="gridStackView" destination="4V6-Bg-xd7" id="SEH-32-zT1"/>
+                        <outlet property="newGameButton" destination="jPZ-RG-EzP" id="4mM-rv-Ymw"/>
                         <outlet property="scoreLabel1" destination="eJs-KT-7Xc" id="ZAT-aR-zhG"/>
                         <outlet property="scoreLabel2" destination="3Qx-GM-vpj" id="JHe-Dx-G87"/>
+                        <outlet property="topBar" destination="Bfs-SJ-S5S" id="Mzn-ss-mXu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jS-TC-8jT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2560.8000000000002" y="91.304347826086968"/>
+            <point key="canvasLocation" x="2559.375" y="90.845070422535215"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YHO-2p-4XF">
@@ -167,7 +188,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WZv-XV-vOJ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lQN-7X-JdM">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="834" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -16,45 +16,33 @@ class OthelloGrid {
     init(height: Int, width: Int) {
         
         // Tarkistetaan, että luvut ovat parilliset
-        if height % 2 != 0 || width % 2 != 0 {
+        guard height % 2 == 0, width % 2 == 0 else {
             fatalError("Leveys \(width) ja pituus \(height) täytyy olla parilliset.")
+        }
+        
+        var tempTiles = [OthelloTile]()
+        var id = 1
+        
+        for y in 1...height {
+            for x in 1...width {
+                let tile = OthelloTile(xPosition: x, yPosition: y, id: id)
+                tempTiles.append(tile)
+                id += 1
+            }
         }
         
         self.height = height
         self.width = width
-        
-        var tempTiles = [OthelloTile]()
-        var id = 1
-        for y in 1...height {
-            for x in 1...width {
-                let tile = OthelloTile.init(xPosition: x, yPosition: y, id: id)
-                tempTiles.append(tile)
-                id = id + 1
-            }
-        }
-        
         self.tiles = tempTiles
         initializeBoard()
-        
     }
     
     func getTile(forX x: Int, forY y: Int) -> OthelloTile? {
-        for tile in tiles {
-            if tile.x == x && tile.y == y {
-                return tile
-            }
-        }
-        return nil
+        return tiles.first { $0.x == x && $0.y == y }
     }
     
     func getTile(forId id: Int) -> OthelloTile? {
-        for tile in tiles {
-            if tile.id == id  {
-                return tile
-            }
-        }
-        print("getTile: Ruutua ei löytynyt id:llä \(id)")
-        return nil
+        return tiles.first { $0.id == id }
     }
     
     func size() -> Int {
@@ -62,10 +50,8 @@ class OthelloGrid {
     }
     
     func initializeBoard(){
-        // Nollataan vanhat ruudut
-        for tile in tiles {
-            tile.gameState = .empty
-        }
+        // Nollataan kaikki ruudut
+        for tile in tiles { tile.gameState = .empty }
         
         // Asetetaan alkutilanne
         let x = width/2

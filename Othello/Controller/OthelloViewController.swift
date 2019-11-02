@@ -8,14 +8,6 @@
 
 import UIKit
 
-struct Colors {
-    static let PLAYER1 = UIColor.red
-    static let PLAYER2 = UIColor.blue
-    static let ILLEGAL_TILE = UIColor.lightGray
-    static let LEGAL_TILE = UIColor.green
-    static let DARK_TEXT = UIColor.darkText
-}
-
 class OthelloViewController: UIViewController {
     
     // MARK - Properties
@@ -23,19 +15,30 @@ class OthelloViewController: UIViewController {
     var gridWidth = 6
     var gridHeight = 8
     private var buttons = [UIButton]()
-    var player1Name = "Pelaaja1"
-    var player2Name = "Pelaaja2"
+    var player1 = Player()
+    var player2 = Player()
     let activityIndicator = UIActivityIndicatorView()
+    var player2UsesAI = false
 
     // MARK - Outlets
     @IBOutlet weak var gridStackView: UIStackView!
     @IBOutlet weak var scoreLabel1: UILabel!
     @IBOutlet weak var scoreLabel2: UILabel!
+    @IBOutlet weak var topBar: UIView!
+    @IBOutlet weak var newGameButton: UIButton!
     
     // MARK - Actions
     @objc func buttonPressed(_ sender: UIButton) {
+        
+        // Pelataan ihmisen vuoro
         game.makeAMove(forId: sender.tag)
         updateUI()
+        
+        // Pelataan mahdolliset tietokoneen vuorot
+        while game.activePlayer == .player2 && player2UsesAI {
+            game.playComputerTurn()
+            updateUI()
+        }
     }
     
     @IBAction func newGameButtonPressed(_ sender: UIButton) {
@@ -43,97 +46,66 @@ class OthelloViewController: UIViewController {
         updateUI()
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        newGameButton.layer.cornerRadius = newGameButton.frame.height/2
         game = Game.init(x: gridWidth, y: gridHeight, firstPlayer: .player1)
+        if player2UsesAI { player2.name = "Computer" }
         setUpGrid()
-        scoreLabel1.textColor = Colors.PLAYER1
-        scoreLabel2.textColor = Colors.PLAYER2
     }
     
     func setUpGrid(){
         
-        for y in 1 ... game.grid.height {
+        var buttonID = 1
+        
+        for _ in 1 ... game.grid.height {
             
             var rowButtons = [UIButton]()
             
-            for x in 1 ... game.grid.width {
-                
-                let buttonNumber = x + (y - 1) * game.grid.width
+            for _ in 1 ... game.grid.width {
+
+                // Luodaan painike
                 let button = UIButton()
-                button.tag = buttonNumber
+                button.tag = buttonID
+                button.imageView?.contentMode = .scaleAspectFit
                 button.translatesAutoresizingMaskIntoConstraints = false
                 button.addTarget(self, action: #selector(self.buttonPressed(_:)), for: .touchUpInside)
-                
-                // ruuduille voidaan asettaa numerot näkyviin tästä
-//                button.setTitle("\(buttonNumber)", for: .normal)
-                
-                
-                // pyöristetään reunat
-                button.layer.cornerRadius = CGFloat(210/gridHeight)
-                button.layer.borderWidth = 1
-                button.layer.borderColor = UIColor.black.cgColor
                 
                 // lisätään painike listaan ja riville
                 buttons.append(button)
                 rowButtons.append(button)
+                
+                buttonID += 1
             }
             
             let row = UIStackView(arrangedSubviews: rowButtons)
             row.axis = .horizontal
-            row.spacing = CGFloat(50/gridHeight)
+            row.spacing = 1
             row.distribution = .fillEqually
             row.translatesAutoresizingMaskIntoConstraints = false
-            
-            gridStackView.spacing = row.spacing
             gridStackView.addArrangedSubview(row)
         }
         
         updateUI()
     }
     
+    func getButton(forId id: Int) -> UIButton? {
+        return buttons.first(where: { $0.tag == id })
+    }
+    
     func getButton(forX x: Int, forY y: Int) -> UIButton? {
-        
-        guard let tile = game.grid.getTile(forX: x, forY: y) else {
-            return nil
-        }
-        
-        if tile.id > buttons.count {
-            return nil
-        }
-        
-        return buttons[tile.id - 1]
+        guard let tile = game.grid.getTile(forX: x, forY: y) else { return nil }
+        return getButton(forId: tile.id)
     }
 
     func updateUI(){
         
         // päivitetään ruudut vastaamaan pelitilannetta
-        for button in buttons {
-            if let tile = game.grid.getTile(forId: button.tag) {
-                switch tile.gameState {
-                case .empty:
-                    button.backgroundColor = Colors.ILLEGAL_TILE
-                case .player1:
-                    button.backgroundColor = Colors.PLAYER1
-                case .player2:
-                    button.backgroundColor = Colors.PLAYER2
-                }
-    
-                for legalTile in game.legalMoves() {
-                    if button.tag == legalTile.id {
-                        button.backgroundColor = Colors.LEGAL_TILE
-                    }
-                }
-                
-                button.setTitleColor(Colors.DARK_TEXT, for: .normal)
-            }
-        }
+        updateAllButtons()
         
         // päivitetään pistemäärät
-        scoreLabel1.text = "\(player1Name): \(game.score1)p"
-        scoreLabel2.text = "\(player2Name): \(game.score2)p"
+        scoreLabel1.text = "\(player1.name): \(game.score1)p"
+        scoreLabel2.text = "\(player2.name): \(game.score2)p"
         
         // päivitetään aktiivisen pelaajan label boldiksi
         switch game.activePlayer {
@@ -147,5 +119,83 @@ class OthelloViewController: UIViewController {
         }
     
     }
+    
+    private func updateAllButtons(){
+        
+        let legalTags = game.legalMoves().map { (legalTile) -> Int in
+            return legalTile.id
+        }
+        
+        for button in buttons {
+            
+            if legalTags.contains(button.tag) {
+                button.setImage(UIImage.init(named: TileImages.legal), for: .normal)
+//                button.backgroundColor = .yellow
+                continue
+            }
+            
+            guard let tile = game.grid.getTile(forId: button.tag) else { continue }
+            
+            var image: UIImage
+            var color: UIColor
+            switch tile.gameState {
+            case .empty:
+                image = UIImage.init(named: TileImages.empty)!
+                color = .green
+            case .player1:
+                image = player1.getImage()
+                color = .red
+            case .player2:
+                image = player2.getImage()
+                color = .blue
+            }
+            
+            button.setImage(image, for: .normal)
+            button.setTitleColor(color, for: .disabled)
+//            button.backgroundColor = color
+        }
+    }
+    
+//    private func updateOnlyChangedButtons(){
+//
+//        // päivitetään muuttuneet ruudut
+//        for tile in game.changedTiles {
+//            guard let button = getButton(forId: tile.id) else {
+//                continue
+//            }
+//
+//            switch tile.gameState {
+//
+//            case .player1: button.backgroundColor = Colors.PLAYER1
+//            case .player2: button.backgroundColor = Colors.PLAYER2
+//            case .empty: button.backgroundColor = Colors.ILLEGAL_TILE
+//
+//            }
+//        }
+//
+//        // päivitetään näkyviin sallitut siirrot
+//        for legalTile in game.legalMoves() {
+//            guard let button = getButton(forId: legalTile.id) else {
+//                continue
+//            }
+//            button.backgroundColor = Colors.LEGAL_TILE
+//        }
+//
+//        // päivitetään edelliset sallitut siirrot takaisin
+//        for tile in game.previousLegalTiles {
+//            guard let button = getButton(forId: tile.id) else {
+//                continue
+//            }
+//
+//            switch tile.gameState {
+//            case .empty:
+//                button.backgroundColor = Colors.ILLEGAL_TILE
+//            case .player1:
+//                button.backgroundColor = Colors.PLAYER1
+//            case .player2:
+//                button.backgroundColor = Colors.PLAYER2
+//            }
+//        }
+//    }
 }
 
