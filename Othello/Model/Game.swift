@@ -113,8 +113,14 @@ class Game {
     
     // päivittää pistetilanteen
     private func updateScore(){
-        self.score1 = self.grid.tiles.filter({ $0.gameState == .player1 }).count
-        self.score2 = self.grid.tiles.filter({ $0.gameState == .player2 }).count
+        
+        self.score1 = self.grid.tiles
+            .filter({ $0.gameState == .player1 })
+            .count
+        
+        self.score2 = self.grid.tiles
+            .filter({ $0.gameState == .player2 })
+            .count
     }
     
     // MARK: - Checks and validations
