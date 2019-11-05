@@ -21,45 +21,44 @@ class Game {
         self.activePlayer = firstPlayer
         self.grid = OthelloGrid.init(height: y, width: x)
     }
-  
+    
     // MARK: - Manipulating methods
     
     // alustaa pelitilanteen
     func startOver(){
-        grid.initializeBoard()
-        updateScore()
+        self.grid.initializeBoard()
+        self.updateScore()
     }
     
     // vaihtaa pelivuoroa
     private func changeActivePlayer() {
-        if activePlayer == .player1 { activePlayer = .player2 }
-        else { activePlayer = .player1 }
+        if self.activePlayer == .player1 { self.activePlayer = .player2 }
+        else { self.activePlayer = .player1 }
     }
     
     // suorittaa siirron
     func makeAMove(forId id: Int) {
         
         // tarkistetaan, että ruutu on olemassa
-        guard let tile = grid.getTile(forId: id) else { return }
+        guard let tile = self.grid.getTile(forId: id) else { return }
         
         // tarkistetaan, että siirto on validi
-        guard validateMove(tile) else { return }
+        guard self.validateMove(tile) else { return }
         
         //suoritetaan siirto
-        changedTiles = [OthelloTile]()
+        var changedTiles = [OthelloTile]()
         changedTiles.append(tile)
-        changedTiles.append(contentsOf: getTilesToBeUpdated(forTile: tile))
-        
-        // asetetaan löytyneet ruudut omiksi ruuduiksi
-        for tile in changedTiles { tile.gameState = activePlayer }
+        changedTiles.append(contentsOf: self.getTilesToBeUpdated(forTile: tile))
+        changedTiles.forEach { $0.gameState = activePlayer }
+        self.changedTiles = changedTiles
         
         // päivitetään tilanne
-        updateScore()
-        previousLegalTiles = legalMoves()
-        changeActivePlayer()
+        self.updateScore()
+        self.previousLegalTiles = legalMoves()
+        self.changeActivePlayer()
         
         // jos uudella pelaajalla ei ole mahdollisia siirtoja, vaihdetaan vuoro takaisin edelliselle
-        if legalMoves().count == 0 { changeActivePlayer() }
+        if self.legalMoves().count == 0 { self.changeActivePlayer() }
     }
     
     // apumetodi: palauttaa kaikki ruudut, jotka muuttuvat siirron yhteydessä aktiivisen pelaajan ruuduiksi
@@ -75,8 +74,11 @@ class Game {
             var y = tile.y + heightChange
             
             // tarkistetaan, että suunnassa on ainakin yksi ruutu, ja se on vastustajan
-            guard let firstNeighbour = grid.getTile(forX: x, forY: y) else { continue }
-            guard firstNeighbour.gameState != activePlayer, firstNeighbour.gameState != .empty else { continue }
+            guard let firstNeighbour = self.grid.getTile(forX: x, forY: y) else { continue }
+            guard
+                firstNeighbour.gameState != activePlayer,
+                firstNeighbour.gameState != .empty
+                else { continue }
             
             // lisätään ensimmäinen naapuri päivitettäväksi
             var tempTiles = [OthelloTile]()
@@ -88,16 +90,16 @@ class Game {
                 x += widthChange
                 y += heightChange
                 guard let nextNeighbour = grid.getTile(forX: x, forY: y) else { break }
-                    
+                
                 // jos löytyy tyhjä ruutu, ei päivitettävää ole
                 guard nextNeighbour.gameState != .empty else { break }
-                    
+                
                 // jos ruutu on vastustajan, lisätään se päivitettäväksi
                 if nextNeighbour.gameState == firstNeighbour.gameState {
                     tempTiles.append(nextNeighbour)
                     continue
                 }
-                    
+                
                 // jos ruutu on oma, lisätään välistä löytyneet vastustajan nappulat päivitettäviksi
                 if nextNeighbour.gameState == activePlayer {
                     result.append(contentsOf: tempTiles)
@@ -111,8 +113,8 @@ class Game {
     
     // päivittää pistetilanteen
     private func updateScore(){
-        score1 = grid.tiles.filter({ $0.gameState == .player1 }).count
-        score2 = grid.tiles.filter({ $0.gameState == .player2 }).count
+        self.score1 = self.grid.tiles.filter({ $0.gameState == .player1 }).count
+        self.score2 = self.grid.tiles.filter({ $0.gameState == .player2 }).count
     }
     
     // MARK: - Checks and validations
@@ -127,7 +129,7 @@ class Game {
         }
         
         // tarkistetaan että siirto on sallittu
-        guard legalMoves().contains(where: { $0.id == tile.id }) else {
+        guard self.legalMoves().contains(where: { $0.id == tile.id }) else {
             print("Siirto \(tile.id) ei ole laillinen")
             return false
         }
@@ -139,9 +141,9 @@ class Game {
         }
         
         // tarkistetaan, että pelaajien yhteispisteet eivät ylitä pelilaudan kokoa
-        let turnsPlayed = score1 + score2
-        guard turnsPlayed < grid.size() else {
-            print("Vuoroja pelattu \(turnsPlayed) vaikka ruutuja on vain \(grid.size())")
+        let combinedScore = score1 + score2
+        guard combinedScore < grid.size() else {
+            print("Vuoroja pelattu \(combinedScore) vaikka ruutuja on vain \(self.grid.size())")
             return false
         }
         
@@ -151,24 +153,35 @@ class Game {
     
     // true, jos peli on päättynyt
     private func checkForWin() -> Bool {
+        var winner: OthelloState? = nil
+        let score1 = self.score1
+        let score2 = self.score2
+        let combinedScore = score1 + score2
+        let boardSize = self.grid.size()
         
+        // peli voi päättyä vajaaseen lautaan vain jos toiselta loppuu nappulat
         if score1 == 0 {
             winner = .player2
-            return true
-        }
-        
-        if score2 == 0 {
+        } else if score2 == 0 {
             winner = .player1
-            return true
+        } else if combinedScore < boardSize {
+            // peli kesken
+            return false
         }
         
-        // peli on kesken, jos ruudukko ei ole täynnä
-        if score1 + score2 < grid.size() { return false }
+        if winner == nil {
+            if score1 > score2 {
+                winner = .player1
+            } else if score2 > score1 {
+                winner = .player2
+            } else {
+                winner = .empty
+            }
+        }
         
-        // pelin lopputulos: voitto tai tasapeli
-        if score1 > score2 { winner = .player1 }
-        else if score2 > score1 { winner = .player2 }
-        else { winner = .empty }
+        guard let declaredWinner = winner else { return false }
+        
+        self.winner = declaredWinner
         return true
     }
     
@@ -178,13 +191,13 @@ class Game {
     func legalMoves() -> [OthelloTile] {
         
         var legalTiles = [OthelloTile]()
-        let playerTiles = grid.tiles.filter { $0.gameState == activePlayer }
+        let playerTiles = self.grid.tiles.filter { $0.gameState == self.activePlayer }
         
         for tile in playerTiles {
             for direction in Directions.values {
                 
                 // jos suunnasta löytyi sallittu siirto, lisätään se listaan
-                if let legalTile = nextLegalTile(fromTile: tile, forDirection: direction) {
+                if let legalTile = self.nextLegalTile(fromTile: tile, forDirection: direction) {
                     legalTiles.append(legalTile)
                 }
             }
@@ -192,7 +205,7 @@ class Game {
         
         return legalTiles
     }
-
+    
     // apumetodi: palauttaa sallitun siirron tietyssä suunnassa tai nil, mikäli sellaista ei ole
     private func nextLegalTile(fromTile tile: OthelloTile, forDirection direction: [Int]) -> OthelloTile? {
         
@@ -201,25 +214,29 @@ class Game {
         var x = tile.x + widthChange
         var y = tile.y + heightChange
         
-        guard let firstNeighbour = grid.getTile(forX: x, forY: y) else {
-            // suunnasta ei löydy ruutuja
+        // suunnasta pitää löytyä edes yksi ruutu
+        guard let firstNeighbour = self.grid.getTile(forX: x, forY: y) else {
             return nil
         }
         
-        // ensimmäinen naapuri ei saa olla tyhjä tai oma
-        guard firstNeighbour.gameState != tile.gameState, firstNeighbour.gameState != .empty else { return nil }
+        // ensimmäinen naapuri täytyy olla vastustajan
+        guard
+            firstNeighbour.gameState != tile.gameState,
+            firstNeighbour.gameState != .empty
+            else { return nil }
         
+        // käsitellään ruutuja kunnes sallittu siirto löytyy
         while true {
             
-            // otetaan käsittelyyn seuraava ruutu
+            // täytyy löytyä seuraava ruutu
             x += widthChange
             y += heightChange
-            guard let nextNeighbour = grid.getTile(forX: x, forY: y) else { break }
+            guard let nextNeighbour = self.grid.getTile(forX: x, forY: y) else { break }
             
-            // ruutu ei saa olla oma
+            // ei saa olla oma
             guard nextNeighbour.gameState != tile.gameState else { break }
             
-            // palautetaan sallittu ruutu
+            // ensimmäinen tyhjä on sallittu ruutu
             if nextNeighbour.gameState == .empty { return nextNeighbour }
         }
         
@@ -228,66 +245,63 @@ class Game {
     }
     
     func playComputerTurn(){
-        var moveToMake: OthelloTile?
-        let w = grid.width
-        let h = grid.height
+        var selectedMove: OthelloTile?
+        let width = self.grid.width
+        let height = self.grid.height
         
         // Kulmapaikat
-        let cornerTiles = [[1, 1], [1, h], [w, 1], [w, h]]
+        let cornerTiles = [[1, 1], [1, height], [width, 1], [width, height]]
         
         // Kulmaa ympäröivä 3x3
         let goodTiles = [[3, 1], [3, 2], [3, 3], [2, 3], [1, 3],
-                         [w-2, 1], [w-2, 2], [w-2, 3], [w-1, 3], [w, 3],
-                         [1, h-2], [2, h-2], [3, h-2], [3, h-1], [3, h],
-                         [w-2, h], [w-2, h-1], [w-2, h-2], [w-1, h-2], [w, h-2]]
+                         [width-2, 1], [width-2, 2], [width-2, 3], [width-1, 3], [width, 3],
+                         [1, height-2], [2, height-2], [3, height-2], [3, height-1], [3, height],
+                         [width-2, height], [width-2, height-1], [width-2, height-2], [width-1, height-2], [width, height-2]]
         
         // Kulman viereiset ruudut
         let badTiles = [[1, 2], [2, 1],
-                        [w-1, 1], [w, 2],
-                        [1, h-1], [2, h],
-                        [w-1, h], [w, h-1]]
+                        [width-1, 1], [width, 2],
+                        [1, height-1], [2, height],
+                        [width-1, height], [width, height-1]]
         
         // Kulman kulmassa kiinni olevat ruudut
-        let theWorstTiles = [[2,2], [w-1, 2], [2, h-1], [w-1, h-1]]
+        let theWorstTiles = [[2,2], [width-1, 2], [2, height-1], [width-1, height-1]]
         
         let validMoves = legalMoves()
-        
-        var smallestAmountOfEnemyTilesAffected = grid.size()
-        var largestAmountOfEnemyTilesAffected = 0
+        var minAmountOfEnemyTilesAffected = self.grid.size()
+        var maxAmountOfEnemyTilesAffected = 0
         var movesLeft = validMoves.count
-        var i = 1
         
         for tile in validMoves {
             
-            // Pidetään kirjaa siitä, montako siirtoa on valittavissa tämän jälkeen
+            // Pidetään kirjaa siitä, montako siirtoa on valittavissa tämän siirron jälkeen
             movesLeft -= 1
-            i += 1
             
-            // Jos siirtoa ei ole vielä valittu eikä muita ole jäljellä, valitaan siirto
-            if moveToMake == nil && movesLeft == 0 {
+            // Jos siirtoa ei ole vielä valittu eikä muita ole jäljellä, siirto on pakko tehdä
+            if movesLeft == 0 && selectedMove == nil {
                 print("AI: Siirtoja oli vain yksi jäljellä: \(tile.x), \(tile.y)")
-                moveToMake = tile
+                selectedMove = tile
                 break
             }
             
             // Jos kulmaruutu on pelattavissa, valitaan se
             if cornerTiles.contains([tile.x, tile.y]) {
                 print("AI: Vallattiin kulmapaikka: \(tile.x), \(tile.y)")
-                moveToMake = tile
+                selectedMove = tile
                 break
             }
             
             // Jos on tarjolla reunapaikka, mutta ei kulman vierestä, otetaan se
-            if !badTiles.contains([tile.x, tile.y]) && (tile.x == 1 || tile.x == w || tile.y == 1 || tile.y == h) {
+            if !badTiles.contains([tile.x, tile.y]) && (tile.x == 1 || tile.x == width || tile.y == 1 || tile.y == height) {
                 print("AI: Vallattiin reunapaikka: \(tile.x), \(tile.y)")
-                moveToMake = tile
+                selectedMove = tile
                 break
             }
             
             // Jos jokin muu hyvä ruutu on pelattavissa, valitaan se
             if goodTiles.contains([tile.x, tile.y]) {
                 print("AI: Pelattiin siirto: \(tile.x), \(tile.y)")
-                moveToMake = tile
+                selectedMove = tile
                 break
             }
             
@@ -303,29 +317,40 @@ class Game {
                 continue
             }
             
-            let affectedTiles = getTilesToBeUpdated(forTile: tile)
+            let numberOfAffectedTiles = self.getTilesToBeUpdated(forTile: tile).count
             
-            // Voidaan valita vähiten nappuloita kääntävä siirto
-            if smallestAmountOfEnemyTilesAffected > affectedTiles.count {
-                smallestAmountOfEnemyTilesAffected = affectedTiles.count
-                moveToMake = tile
+            // Voidaan valita suurin tai pienin mahdollinen määrä käännettäviä nappuloita
+            let computerPrefersMaximumImpact = true
+            
+            if numberOfAffectedTiles > maxAmountOfEnemyTilesAffected  {
+                
+                maxAmountOfEnemyTilesAffected = numberOfAffectedTiles
+                
+                if computerPrefersMaximumImpact {
+                    selectedMove = tile
+                    continue
+                }
             }
             
-            // Voidaan valita eniten nappuloita kääntävä siirto
-            else if largestAmountOfEnemyTilesAffected < affectedTiles.count {
-                largestAmountOfEnemyTilesAffected = affectedTiles.count
-//                moveToMake = tile
+            if numberOfAffectedTiles < minAmountOfEnemyTilesAffected {
+                
+                minAmountOfEnemyTilesAffected = numberOfAffectedTiles
+                
+                if !computerPrefersMaximumImpact {
+                    selectedMove = tile
+                    continue
+                }
             }
         }
-    
-        guard let id = moveToMake?.id else {
+        
+        guard let id = selectedMove?.id else {
             print("Unable to play computer turn.")
-            activePlayer = .player1
+            self.activePlayer = .player1
             return
         }
         
         // Pelataan valittu siirto
-        makeAMove(forId: id)
+        self.makeAMove(forId: id)
     }
 }
 
