@@ -1,8 +1,14 @@
 # Othello
-Classic Othello game with customization, local multiplayer, and a simple AI opponent. 
+Classic Othello game with customization, local multiplayer, and a simple AI opponent.
 
-One of the main points was to try and build a game with a fully customizable board. The game engine supports all possible board sized. Only restriction is that rows and columns must be multiples of 2. 
+Main objectives:
+- fully customizable board
+- working AI that can beat regular human players
+- test different input methods in UIKit (slider, picker, toggle)
 
-The AI engine also works equally well with all possible board sizes. AI has two different strategies, but for now, the selection is predefined in the code.
+The game engine supports all possible board sizes. Only restriction is that rows and columns are multiples of 2, otherwise the starting position couldn't be defined.
+
+The AI has two different strategies but for now, the selection is predefined in the code. AI works equally well with all possible board sizes.
 
 ![](Pictures/othello.gif)
+
