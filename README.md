@@ -1,5 +1,5 @@
-# iOS-UIKit-Othello
-Othello game with customization, local multiplayer, and a simple AI opponent
+# Othello
+Classic Othello game with customization, local multiplayer, and a simple AI opponent
 
 ![](Pictures/othello.gif)
 
