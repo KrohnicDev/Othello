@@ -1,6 +1,8 @@
 # iOS-UIKit-Othello
 Othello game with customization, local multiplayer, and a simple AI opponent
 
+![](Pictures/othello.gif)
+
 # Menu
 In the menu, the user can customize the player colors and the board size. They can also choose to play against AI.
 
