@@ -8,7 +8,7 @@ Main objectives:
 
 The game engine supports all possible board sizes. Only restriction is that rows and columns are multiples of 2, otherwise the starting position couldn't be defined.
 
-The AI has two different strategies but for now, the selection is predefined in the code. AI works equally well with all possible board sizes.
+The AI has two different strategies. For now, the selection is predefined in the code, but that could be easily changed in the future. AI works equally well with all possible board sizes.
 
 ![](Pictures/othello.gif)
 
